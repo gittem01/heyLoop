@@ -6,6 +6,7 @@ class Particle:
         self.pos = pos
         self.speed = speed
         self.world = world
+        self.world.things.append(self)
 
     def update(self, frame, im, maskIm):
         self.pos[0] += self.speed[0]

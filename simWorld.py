@@ -10,6 +10,10 @@ class SimWorld:
         self.emiters = []
         self.things = []
         self.frame = 0
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
+        fps = 60
+        self.writer = cv2.VideoWriter('output.avi',fourcc, fps, (size[1], size[0]))
+
 
     def loop(self, key=None):
         self.frame+=1
@@ -20,3 +24,4 @@ class SimWorld:
         for emiter in self.emiters:
             emiter.update(self.frame, copIm, copMask)
         cv2.imshow(self.winName, copIm)
+        self.writer.write(copIm)

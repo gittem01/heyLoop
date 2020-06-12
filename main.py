@@ -1,6 +1,9 @@
 from pyGuix.guix import *
 from simWorld import *
 from signalEmiter import *
+from soundProcessor import *
+
+sp = soundProcessor(60, "blop.wav")
 
 window = Window((270, 480, 3))
 slider = Slider([20, 100], 200, limits = [20, 500])
@@ -9,14 +12,17 @@ button = Button("Press", [20, 200], [100, 50])
 window.addThing(slider)
 window.addThing(button)
 
-simWorld = SimWorld((720, 1080, 3))
+simWorld = SimWorld((1080, 1920, 3))
 
-se1 = SignalEmiter((270, 180), simWorld, 1, 50)
-se2 = SignalEmiter((810, 180), simWorld, 1, 50)
-se3 = SignalEmiter((540, 540), simWorld, 1, 50)
+se1 = SignalEmiter((270, 180), simWorld, sp, 1, 200)
+se2 = SignalEmiter((810, 180), simWorld, sp, 1, 200)
+se3 = SignalEmiter((540, 540), simWorld, sp, 1, 50)
 
+def buttonClick():
+    se1.createSignals()
+    button.color = button.getInverseColor()
 
-button.onClick = se1.createSignals
+button.onClick = buttonClick
 
 while 1:
     key = cv2.waitKey(1)
@@ -25,3 +31,6 @@ while 1:
     se1.strength = slider.sliderPos
     if key == ord("q"):
         break
+length = len(sp.srcAud)/1000
+sp.save(simWorld.frame/60)
+sp.combine("output.avi")

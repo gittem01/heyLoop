@@ -7,11 +7,12 @@ from signalEmiter import *
 from particle import *
 
 class SignalEmiter:
-    def __init__(self, pos, world, freq=1, strength=100):
+    def __init__(self, pos, world, soundProcessor, freq=1, strength=100):
         self.pos = pos
         self.freq = freq
         self.strength = strength
         self.world = world
+        self.sp = soundProcessor
         world.emiters.append(self)
         self.r = 10
 
@@ -44,13 +45,12 @@ class SignalEmiter:
         m0 = self.mask[0]+self.pos[0]-self.r
         m1 = self.mask[1]+self.pos[1]-self.r
         im[m1, m0] = (255, 255, 3)
-        maskIm[m1, m0] = 255
 
     def createSignals(self):
+        self.sp.put(self.world.frame)
         baseAngle  = random.random()*math.pi
         for i in range(int(self.strength)):
-            angle = (i/self.strength)*2*np.pi + baseAngle
-            speed = (math.sin(angle), math.cos(angle))
+            angle = (i/self.strength)*2*math.pi + baseAngle
+            speed = (math.cos(angle)*5, math.sin(angle)*5)
             pos = [self.pos[0]+speed[0]*self.r*1.5, self.pos[1]+speed[1]*self.r*1.5]
             particle = Particle(pos, speed, self.world)
-            self.world.things.append(particle)
