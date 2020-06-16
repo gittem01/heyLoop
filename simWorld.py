@@ -12,7 +12,7 @@ class SimWorld:
         self.frame = 0
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
         fps = 60
-        self.writer = cv2.VideoWriter('output.avi',fourcc, fps, (size[1], size[0]))
+        self.writer = cv2.VideoWriter('output_files/output.avi',fourcc, fps, (size[1], size[0]))
 
 
     def loop(self, key=None):

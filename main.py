@@ -31,6 +31,7 @@ while 1:
     se1.strength = slider.sliderPos
     if key == ord("q"):
         break
+        
 length = len(sp.srcAud)/1000
 sp.save(simWorld.frame/60)
-sp.combine("output.avi")
+sp.combine("output_files/output.avi")

@@ -51,6 +51,6 @@ class SignalEmiter:
         baseAngle  = random.random()*math.pi
         for i in range(int(self.strength)):
             angle = (i/self.strength)*2*math.pi + baseAngle
-            speed = (math.cos(angle)*5, math.sin(angle)*5)
+            speed = (math.cos(angle)*20, math.sin(angle)*20)
             pos = [self.pos[0]+speed[0]*self.r*1.5, self.pos[1]+speed[1]*self.r*1.5]
             particle = Particle(pos, speed, self.world)
