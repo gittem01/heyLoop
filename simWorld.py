@@ -19,8 +19,15 @@ class SimWorld:
         self.frame+=1
         copIm = self.baseIm.copy()
         copMask = self.maskArr.copy()
-        for thing in self.things:
-            thing.update(self.frame, copIm, copMask)
+        willRemoved = []
+        for i in range(len(self.things)):
+            if self.things[i].update(self.frame, copIm, copMask):
+                willRemoved.append(i)
+        val = 0
+        for i in willRemoved:
+            self.things.pop(i-val)
+            val += 1
+
         for emiter in self.emiters:
             emiter.update(self.frame, copIm, copMask)
         cv2.imshow(self.winName, copIm)

@@ -13,9 +13,10 @@ class Particle:
         self.pos[1] += self.speed[1]
 
         if self.pos[0] < 0 or self.pos[0] >= im.shape[1] or self.pos[1] < 0 or self.pos[1] >= im.shape[0]:
-            self.world.things.remove(self)
-            return
+            return True
+
         self.draw(im, maskIm)
+        return False
 
     def draw(self, im, maskIm):
         cv2.circle(im, (int(self.pos[0]), int(self.pos[1])), 1, (255, 255, 255), -1)
