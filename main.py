@@ -2,6 +2,10 @@ from pyGuix.guix import *
 from simWorld import *
 from signalEmiter import *
 from soundProcessor import *
+import os
+
+if not os.path.exists("output_files"):
+    os.mkdir("output_files")
 
 sp = soundProcessor(60, "blop.wav")
 
@@ -31,7 +35,7 @@ while 1:
     se1.strength = slider.sliderPos
     if key == ord("q"):
         break
-        
+
 length = len(sp.srcAud)/1000
 sp.save(simWorld.frame/60)
 sp.combine("output_files/output.avi")
