@@ -4,11 +4,11 @@ import os
 class soundProcessor:
     def __init__(self, FPS, sourceAudio, isRealTime=False):
         self.fps = FPS
-        self.sound = AudioSegment.silent(duration=FPS*5000)
+        self.sound = AudioSegment.silent(duration=FPS*1000)
         self.srcAud = AudioSegment.from_wav(f"./sound_files/{sourceAudio}")
         self.isRealTime = isRealTime # Overlays the sound at the end if True
         self.frames = []
-        
+
     def put(self, frame):
         if self.isRealTime:
             self.sound = self.sound.overlay(self.srcAud, position=(frame/self.fps)*1000)
@@ -16,6 +16,8 @@ class soundProcessor:
             self.frames.append(frame)
 
     def save(self, size=None):
+        self.sound = AudioSegment.silent(duration=size*1000)
+
         for i in range(len(self.frames)):
             self.sound = self.sound.overlay(self.srcAud,
                                             position=(self.frames[i]/self.fps)*1000)
@@ -28,5 +30,5 @@ class soundProcessor:
             self.sound.export("output_files/output_sound.wav", format="wav")
 
     def combine(self, vidPos):
-        os.system(f"ffmpeg -i {vidPos} -i output_files/output_sound.wav -c "+
+        os.system(f"ffmpeg -loglevel quiet -i {vidPos} -i output_files/output_sound.wav -c "+
                   "copy output_files/final_output.mkv -y")
